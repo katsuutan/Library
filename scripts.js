@@ -91,9 +91,17 @@ function addBook() {
 
     const title = inputSelector.querySelector("#title");
     const author = inputSelector.querySelector("#author");
-
-    addBookToLibrary(new Book(title.value, author.value));
-    reloadLibrary();
+    if (!title.validity.valueMissing && !author.validity.valueMissing) {
+        addBookToLibrary(new Book(title.value, author.value));
+        reloadLibrary();
+    } else if (title.validity.valueMissing){
+        title.setCustomValidity('Title required.');
+    } else if (author.validity.valueMissing) {
+        author.setCustomValidity('Author required.');
+    } else {
+        title.setCustomValidity('');
+        author.setCustomValidity('');
+    }
 }
 
 function reloadLibrary() {
@@ -109,5 +117,6 @@ addBookToLibrary(book1);
 addBookToLibrary(book2);
 
 displayLibrary(myLibrary);
+//formValidation();
 
 
