@@ -93,20 +93,35 @@ function addBook() {
     const author = inputSelector.querySelector("#author");
     if (!title.validity.valueMissing && !author.validity.valueMissing) {
         addBookToLibrary(new Book(title.value, author.value));
-        reloadLibrary();
-    } else if (title.validity.valueMissing){
+        //reloadLibrary();
+        title.setCustomValidity('');
+        author.setCustomValidity('');
+    } else if (title.validity.valueMissing) {
         title.setCustomValidity('Title required.');
+        title.reportValidity();
     } else if (author.validity.valueMissing) {
+        title.setCustomValidity('');
         author.setCustomValidity('Author required.');
+        author.reportValidity();
     } else {
         title.setCustomValidity('');
         author.setCustomValidity('');
     }
+    reloadLibrary();
+    //title.setCustomValidity('');
+    //author.setCustomValidity('');
 }
 
 function reloadLibrary() {
     removeLibrary();
     displayLibrary(myLibrary);
+}
+
+function prevent() {
+    const submit = document.getElementById('submit-btn');
+    submit.addEventListener('click', function(e) {
+        e.preventDefault();
+    });
 }
 
 const book1 = new Book('Overgeared', 'God Grid');
@@ -115,6 +130,8 @@ const book2 = new Book('Strongest Sword God', 'random MC');
 // Initial Display
 addBookToLibrary(book1);
 addBookToLibrary(book2);
+
+prevent();
 
 displayLibrary(myLibrary);
 //formValidation();
